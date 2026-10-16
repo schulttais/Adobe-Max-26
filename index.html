@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="en" class="pwa">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mo's MAX</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Personal Adobe MAX 2026 agenda">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mo's MAX">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#F2F2F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+</head>
+<body>
+<style>
+/* Layout: an iOS-style app. Large title per tab, inset grouped lists, one black MAX hero card, a bottom tab bar, and details in a slide-up sheet. */
+:root {
+  --sat: 0px;
+  --bg: #F2F2F7; --card: #FFFFFF; --card2: #F7F7FA; --label: #000000; --label2: #6C6C72; --label3: #8E8E93;
+  --sep: rgba(60,60,67,.18); --fill: rgba(118,118,128,.12); --press: rgba(0,0,0,.05);
+  --tint: #D70F00; --must: #D70F00; --high: #0A2C8F; --med: #8E8E93; --net: #1F7A7C; --pin: #1C1C1E; --pin-t: #FFFFFF;
+  --ok: #3E7A1E; --ok-bg: #EAF4E1; --walk: #8F5508; --walk-bg: #FBF0DE; --res: #0B6A86; --res-bg: #E1F2F8;
+  --tue: #1F7F82; --wed: #C8285E; --thu: #0A2C8F;
+  --hero: #0B0B0D; --bar: rgba(249,249,251,.86);
+  --m-bldg: #FFFFFF; --m-edge: #D1D1D6; --m-zone: #F2F2F7; --m-hall: #E9E9EE; --m-hl: #FDE7EC; --m-cp: #FCEFF2; --m-hl-edge: #E0245E; --m-text: #1C1C1E; --m-text2: #6C6C72; --m-faint: #A1A1A8;
+  --max: linear-gradient(90deg, #EB1000 0%, #FC4B84 30%, #2C8E91 62%, #012579 86%, #D1BE4E 100%);
+  --f: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #000000; --card: #1C1C1E; --card2: #2C2C2E; --label: #FFFFFF; --label2: #A1A1A8; --label3: #7C7C83;
+  --sep: rgba(84,84,88,.55); --fill: rgba(118,118,128,.24); --press: rgba(255,255,255,.06);
+  --tint: #FF5544; --must: #FF5544; --high: #93A9FF; --med: #8E8E93; --net: #5CC8CA; --pin: #F2F2F7; --pin-t: #000000;
+  --ok: #A6D36B; --ok-bg: #1E2A14; --walk: #F0B261; --walk-bg: #33240F; --res: #66D0EC; --res-bg: #0F2F38;
+  --tue: #4FC0C3; --wed: #F2709B; --thu: #93A9FF;
+  --hero: #0B0B0D; --bar: rgba(22,22,24,.86);
+  --m-bldg: #1C1C1E; --m-edge: #3A3A3C; --m-zone: #2C2C2E; --m-hall: #26262A; --m-hl: #3B1822; --m-cp: #2E1A21; --m-hl-edge: #FF5C86; --m-text: #F2F2F7; --m-text2: #A1A1A8; --m-faint: #6E6E75;
+  color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #000000; --card: #1C1C1E; --card2: #2C2C2E; --label: #FFFFFF; --label2: #A1A1A8; --label3: #7C7C83;
+  --sep: rgba(84,84,88,.55); --fill: rgba(118,118,128,.24); --press: rgba(255,255,255,.06);
+  --tint: #FF5544; --must: #FF5544; --high: #93A9FF; --med: #8E8E93; --net: #5CC8CA; --pin: #F2F2F7; --pin-t: #000000;
+  --ok: #A6D36B; --ok-bg: #1E2A14; --walk: #F0B261; --walk-bg: #33240F; --res: #66D0EC; --res-bg: #0F2F38;
+  --tue: #4FC0C3; --wed: #F2709B; --thu: #93A9FF;
+  --hero: #0B0B0D; --bar: rgba(22,22,24,.86);
+  --m-bldg: #1C1C1E; --m-edge: #3A3A3C; --m-zone: #2C2C2E; --m-hall: #26262A; --m-hl: #3B1822; --m-cp: #2E1A21; --m-hl-edge: #FF5C86; --m-text: #F2F2F7; --m-text2: #A1A1A8; --m-faint: #6E6E75;
+  color-scheme: dark }
+html.pwa { --sat: env(safe-area-inset-top, 0px) }
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent }
+[hidden] { display: none !important }
+html, body { background: var(--bg) }
+body { margin: 0; font-family: var(--f); color: var(--label); font-size: 17px; line-height: 1.35; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100% }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: max(var(--sat), env(safe-area-inset-top, 0px)); z-index: 30; background: var(--bg) }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left }
+a { color: var(--tint); text-decoration: none }
+:focus-visible { outline: 2px solid var(--tint); outline-offset: 2px; border-radius: 8px }
+.wrap { max-width: 640px; margin: 0 auto; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)) }
+main { padding-block: calc(var(--sat) + 14px) calc(96px + env(safe-area-inset-bottom, 0px)) }
+.view { display: grid; gap: 22px }
+
+/* large title */
+.lt { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding-top: 6px }
+.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; color: var(--label2) }
+.lt h1 { margin: 2px 0 0; font-size: 34px; line-height: 1.1; font-weight: 700; letter-spacing: -.02em }
+.grad { background: var(--max); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent }
+.avatar { width: 36px; height: 36px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; color: #fff; background: radial-gradient(circle at 70% 30%, #FC4B84 0 30%, transparent 31%), linear-gradient(135deg, #012579, #2C8E91); flex: none; margin-bottom: 2px }
+
+/* hero */
+.hero { position: relative; overflow: hidden; background: var(--hero); color: #fff; border-radius: 20px; padding: 18px 18px 16px; min-height: 196px; display: grid; align-content: end; gap: 6px; border: 1px solid rgba(255,255,255,.06) }
+.hero svg.art { position: absolute; right: -34px; top: -40px; width: 210px; height: 210px; pointer-events: none }
+.hero > * { position: relative }
+.h-eye { display: flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: rgba(255,255,255,.72) }
+.live { width: 8px; height: 8px; border-radius: 50%; background: #FF3B30; box-shadow: 0 0 0 4px rgba(255,59,48,.25) }
+.hero h2 { margin: 0; font-size: 26px; line-height: 1.15; font-weight: 700; letter-spacing: -.015em; max-width: 84%; text-wrap: balance }
+.h-meta { max-width: 84% }
+.h-meta { font-size: 15px; color: rgba(255,255,255,.78); font-variant-numeric: tabular-nums }
+.h-acts { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap }
+.pill-btn { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 16px; border-radius: 999px; font-size: 15px; font-weight: 600 }
+.pill-btn.light { background: #fff; color: #000 }
+.pill-btn.glass { background: rgba(255,255,255,.16); color: #fff }
+.h-next { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.14); font-size: 14px; color: rgba(255,255,255,.7) }
+.h-next b { color: #fff; font-weight: 600 }
+
+/* sections and inset grouped lists */
+.sec { display: grid; gap: 8px }
+.sec-h { display: flex; align-items: baseline; justify-content: space-between; padding: 0 4px }
+.sec-h h2 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -.01em }
+.sec-h button, .sec-h a { color: var(--tint); font-size: 15px }
+.sec-note { padding: 0 4px; font-size: 13px; color: var(--label2) }
+.group { background: var(--card); border-radius: 14px; overflow: hidden }
+.row { width: 100%; display: grid; grid-template-columns: 54px 1fr 14px; align-items: center; gap: 12px; padding: 11px 14px 11px 16px; position: relative; min-height: 58px }
+.row + .row::before, .rowgap + .row::before, .row + .rowgap::before { content: ""; position: absolute; top: 0; right: 0; left: 82px; height: 1px; background: var(--sep); transform: scaleY(.6) }
+.row:active { background: var(--press) }
+.row.plain { grid-template-columns: 30px 1fr 14px }
+.row.plain + .row::before, .row + .row.plain::before { left: 58px }
+.rt { font-variant-numeric: tabular-nums; display: grid; line-height: 1.1 }
+.rt b { font-size: 17px; font-weight: 600; letter-spacing: -.01em }
+.rt small { font-size: 11.5px; color: var(--label2); font-weight: 600; margin-top: 2px }
+.rm { min-width: 0; display: grid; gap: 2px }
+.rtitle { font-size: 16px; font-weight: 600; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden }
+.rsub { font-size: 13.5px; color: var(--label2); display: flex; align-items: center; gap: 6px; min-width: 0 }
+.rsub span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--med); flex: none }
+.dot.must { background: var(--must) } .dot.high { background: var(--high) } .dot.network { background: var(--net) } .dot.optional { background: transparent; box-shadow: inset 0 0 0 1.5px var(--med) } .dot.travel { background: #0190CD }
+.chev { width: 9px; height: 15px; color: var(--label3) }
+.row.now { background: linear-gradient(90deg, rgba(235,16,0,.08), transparent 70%) }
+.row.now .rt b { color: var(--must) }
+.nowtag { font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--must) }
+.rowgap { position: relative; padding: 9px 16px 9px 82px; font-size: 13px; color: var(--label2); background: var(--card2) }
+.rowgap b { font-weight: 600; color: var(--label2); font-variant-numeric: tabular-nums; margin-right: 6px }
+.ico { width: 30px; height: 30px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; color: #fff }
+.ico svg { width: 17px; height: 17px }
+
+/* segmented control */
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 2px; border-radius: 9px; background: var(--fill) }
+.seg button { height: 30px; border-radius: 7px; font-size: 14px; font-weight: 500; text-align: center; color: var(--label) }
+.seg button[aria-pressed="true"] { background: var(--card); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 0 0 .5px rgba(0,0,0,.04) }
+.dayinfo { padding: 0 4px; font-size: 14px; color: var(--label2) }
+.dayinfo b { color: var(--label); font-weight: 600 }
+
+/* tab bar */
+.tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--bar); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-top: .5px solid var(--sep); padding: 6px max(10px, env(safe-area-inset-left, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(10px, env(safe-area-inset-right, 0px)) }
+.tabbar nav { max-width: 640px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr) }
+.tabbar button { display: grid; justify-items: center; gap: 2px; padding: 3px 0; font-size: 10.5px; font-weight: 500; color: var(--label3) }
+.tabbar svg { width: 25px; height: 25px }
+.tabbar button[aria-selected="true"] { color: var(--tint) }
+
+/* map */
+.mapcard { background: var(--card); border-radius: 18px; padding: 10px }
+.vm { width: 100%; height: auto; display: block; max-width: 460px; margin: 0 auto }
+.vm text { font-family: var(--f) }
+.vm .m-bldg { fill: var(--m-bldg); stroke: var(--m-edge); stroke-width: 1.5 }
+.vm .m-zone { fill: var(--m-zone) }
+.vm .m-hall { fill: var(--m-hall) }
+.vm .m-hl { fill: var(--m-hl); stroke: var(--m-hl-edge); stroke-width: 2 }
+.vm .m-cp { fill: var(--m-cp); stroke: var(--m-hl-edge); stroke-width: 2 }
+.vm .m-l2 { fill: var(--m-bldg); stroke: var(--m-hl-edge); stroke-width: 2 }
+.vm .m-div { stroke: var(--m-hl-edge); stroke-opacity: .25; stroke-width: 1.5 }
+.vm .m-dash { stroke: var(--m-faint); stroke-width: 1.5; stroke-dasharray: 3 3; fill: none }
+.vm .m-ink { fill: var(--m-text) }
+.vm .m-pin { fill: var(--pin) }
+.vm .pc0 { fill: var(--m-hl-edge); opacity: 0 }
+.vm .t-st { font-size: 10px; fill: var(--m-faint); letter-spacing: .06em; text-transform: uppercase; font-weight: 600 }
+.vm .t-strong { fill: var(--m-text) }
+.vm .t-lab2 { font-size: 9.5px; fill: var(--m-faint); letter-spacing: .06em; text-transform: uppercase; font-weight: 600 }
+.vm .t-zone { font-size: 15px; font-weight: 600; fill: var(--m-text2) }
+.vm .t-big { font-size: 20px; font-weight: 700; fill: var(--m-text); letter-spacing: -.01em }
+.vm .t-mid { font-size: 14.5px; font-weight: 600; fill: var(--m-text) }
+.vm .t-sub { font-size: 10.5px; fill: var(--m-text2) }
+.vm .t-note { font-size: 9.5px; fill: var(--m-hl-edge); font-style: italic }
+.vm .t-l2 { font-size: 8.5px; font-weight: 700; fill: var(--m-hl-edge); letter-spacing: .1em }
+.vm .t-pin { font-size: 11px; font-weight: 700; fill: var(--pin-t) }
+.vm .place { cursor: pointer; transition: opacity .2s }
+.vm .place.dim { opacity: .2 }
+.vm .place.sel .ring { stroke-width: 3.5 }
+.vm .pulse { animation: pulse 1.2s ease-out 3 }
+@keyframes pulse { 0% { r: 11; opacity: .6 } 100% { r: 26; opacity: 0 } }
+.pnum { width: 24px; height: 24px; border-radius: 50%; background: var(--pin); color: var(--pin-t); font-size: 12.5px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; line-height: 1; flex: none }
+.pnum.q { background: var(--label3) }
+
+/* people */
+.pav { width: 40px; height: 40px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; background: #8E8E93 }
+.pav.t1 { background: linear-gradient(135deg, #EB1000, #FC4B84 45%, #2C8E91) }
+.row.person { grid-template-columns: 40px 1fr 14px }
+.row.person + .row.person::before { left: 68px }
+
+/* sheet */
+.sheet-wrap { position: fixed; inset: 0; z-index: 50 }
+.scrim { position: absolute; inset: 0; background: rgba(0,0,0,.38); opacity: 0; transition: opacity .25s }
+.sheet { position: absolute; left: 0; right: 0; bottom: 0; max-width: 680px; margin: 0 auto; max-height: calc(100% - 36px - max(var(--sat), env(safe-area-inset-top, 0px))); background: var(--bg); border-radius: 14px 14px 0 0; display: flex; flex-direction: column; transform: translateY(100%); transition: transform .32s cubic-bezier(.2,.8,.2,1); box-shadow: 0 -10px 40px rgba(0,0,0,.18) }
+.sheet-wrap.open .scrim { opacity: 1 }
+.sheet-wrap.open .sheet { transform: none }
+.sh-bar { position: relative; display: flex; align-items: center; justify-content: space-between; padding: 14px 18px 6px; flex: none }
+.grab { position: absolute; top: 6px; left: 50%; width: 36px; height: 5px; margin-left: -18px; border-radius: 3px; background: var(--label3); opacity: .5 }
+.sh-bar button { color: var(--tint); font-size: 17px; min-height: 32px }
+.sh-bar .done { font-weight: 600; margin-left: auto }
+.sh-body { overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 4px max(18px, env(safe-area-inset-left, 0px)) calc(28px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-right, 0px)); display: grid; gap: 18px; align-content: start }
+.sh-title { display: grid; gap: 4px }
+.sh-title h2 { margin: 0; font-size: 28px; line-height: 1.15; font-weight: 700; letter-spacing: -.02em; text-wrap: balance }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px }
+.tag { display: inline-flex; align-items: center; height: 24px; padding: 0 10px; border-radius: 999px; font-size: 12.5px; font-weight: 600; background: var(--fill); color: var(--label) }
+.tag.must { background: var(--must); color: #fff } .tag.high { background: var(--high); color: var(--card) } .tag.network { background: var(--net); color: var(--card) }
+.tag.reserve { background: var(--res-bg); color: var(--res) } .tag.walkin { background: var(--walk-bg); color: var(--walk) } .tag.nobook { background: var(--ok-bg); color: var(--ok) }
+.tag.once { background: transparent; box-shadow: inset 0 0 0 1px var(--must); color: var(--must) }
+.card { background: var(--card); border-radius: 14px; padding: 14px 16px; display: grid; gap: 6px }
+.card h3 { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; color: var(--label2) }
+.card p { margin: 0; font-size: 16px; line-height: 1.45 }
+.card .small { font-size: 14px; color: var(--label2) }
+.loccard { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center }
+.loccard b { font-size: 17px; font-weight: 600; display: block }
+.loccard span { font-size: 14px; color: var(--label2) }
+.mapbtn { height: 32px; padding: 0 14px; border-radius: 999px; background: var(--fill); color: var(--tint); font-size: 15px; font-weight: 600 }
+.cta { display: flex; align-items: center; justify-content: center; height: 50px; border-radius: 14px; background: var(--tint); color: #fff; font-size: 17px; font-weight: 600 }
+.cta.sec2 { background: var(--card); color: var(--tint) }
+.pbcard { background: var(--card); border-radius: 14px; padding: 14px 16px; display: grid; gap: 6px; border-left: 4px solid var(--fill) }
+.pbcard .pbt { font-size: 13px; font-weight: 600; color: var(--label2); font-variant-numeric: tabular-nums }
+.pbcard h4 { margin: 0; font-size: 17px; font-weight: 600; line-height: 1.3 }
+.pbcard .why2 { font-size: 15px; color: var(--label2); line-height: 1.4 }
+.pbacts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px }
+.socials { display: flex; flex-wrap: wrap; gap: 8px }
+.socials a { display: inline-flex; align-items: center; height: 36px; padding: 0 14px; border-radius: 999px; background: var(--card); font-size: 15px; font-weight: 600 }
+.socials a span { color: var(--label2); font-weight: 500; margin-right: 6px }
+.plist { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px }
+.plist li { font-size: 15.5px; line-height: 1.45; padding-left: 16px; position: relative }
+.plist li::before { content: ""; position: absolute; left: 2px; top: .62em; width: 6px; height: 6px; border-radius: 50%; background: var(--label3) }
+.plist b { font-weight: 600 }
+.foot { padding: 4px 4px 0; font-size: 12.5px; color: var(--label3); display: grid; gap: 4px }
+
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important } }
+</style>
+
+<main class="wrap">
+  <section class="view" id="v-today" aria-label="Today"></section>
+  <section class="view" id="v-agenda" aria-label="Agenda" hidden></section>
+  <section class="view" id="v-map" aria-label="Map" hidden>
+    <div class="lt"><div><div class="eyebrow">Miami Beach Convention Center</div><h1>Map</h1></div></div>
+    <div class="seg" id="mapseg" role="group" aria-label="Filter by day"></div>
+    <div class="mapcard" id="mapcard"><svg class="vm" viewBox="0 0 400 668" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of the Miami Beach Convention Center with the places on Mo's agenda">
+<g><path d="M14 22 L22 6 L30 22 Z" class="m-ink"/><text x="36" y="20" class="t-st t-strong">North</text></g>
+<text transform="translate(393 330) rotate(90)" class="t-st" text-anchor="middle">Washington Ave · east</text>
+<text transform="translate(12 330) rotate(-90)" class="t-st" text-anchor="middle">Convention Center Dr · west</text>
+<rect x="22" y="34" width="356" height="566" rx="16" class="m-bldg"/>
+<rect x="124" y="40" width="208" height="24" rx="6" class="m-zone"/><text x="228" y="56" class="t-lab2" text-anchor="middle">North dock</text>
+<rect x="340" y="70" width="30" height="490" rx="6" class="m-zone"/><text transform="translate(358 300) rotate(90)" class="t-lab2" text-anchor="middle">East lobby</text>
+<rect x="28" y="70" width="92" height="524" rx="8" class="m-zone"/><text transform="translate(80 312) rotate(-90)" class="t-zone" text-anchor="middle">Grand Lobby</text>
+<rect x="254" y="566" width="78" height="26" rx="6" class="m-zone"/><text x="293" y="583" class="t-lab2" text-anchor="middle">South dock</text>
+<rect x="124" y="70" width="210" height="490" class="m-hall"/>
+<g class="place" data-pin="2" role="button" tabindex="0" aria-label="Creative Park"><rect class="ring m-cp" x="124" y="188" width="210" height="372"/>
+<line x1="124" y1="312" x2="334" y2="312" class="m-div"/><line x1="124" y1="436" x2="334" y2="436" class="m-div"/>
+<text x="324" y="304" class="t-lab2" text-anchor="end">Hall B</text><text x="324" y="428" class="t-lab2" text-anchor="end">Hall C</text><text x="324" y="552" class="t-lab2" text-anchor="end">Hall D</text>
+<text x="229" y="350" class="t-big" text-anchor="middle">Creative Park</text>
+<text x="229" y="369" class="t-sub" text-anchor="middle">Stages · Demo Theater · Braindate</text>
+<text x="229" y="384" class="t-sub" text-anchor="middle">Session Rooms 1 to 6 · booths</text>
+<text x="229" y="406" class="t-note" text-anchor="middle">Hall not published yet. Drawn across</text>
+<text x="229" y="419" class="t-note" text-anchor="middle">Halls B to D as an assumption.</text>
+<circle class="pc0" cx="140" cy="204" r="11"/><circle class="m-pin" cx="140" cy="204" r="11"/><text x="140" y="207.9" class="t-pin" text-anchor="middle">2</text></g>
+<g class="place" data-pin="1" role="button" tabindex="0" aria-label="Hall A"><rect class="ring m-hl" x="124" y="70" width="210" height="118"/>
+<text x="229" y="132" class="t-big" text-anchor="middle">Hall A</text><text x="229" y="151" class="t-sub" text-anchor="middle">Keynotes, Sneaks</text><circle class="pc0" cx="140" cy="86" r="11"/><circle class="m-pin" cx="140" cy="86" r="11"/><text x="140" y="89.9" class="t-pin" text-anchor="middle">1</text></g>
+<g class="place" data-pin="3" role="button" tabindex="0" aria-label="Ocean Drive Room"><rect class="ring m-hl" x="32" y="74" width="84" height="112" rx="8"/>
+<text x="74" y="126" class="t-mid" text-anchor="middle">Ocean</text><text x="74" y="143" class="t-mid" text-anchor="middle">Drive</text><text x="74" y="161" class="t-sub" text-anchor="middle">Rooms A to H</text><circle class="pc0" cx="46" cy="88" r="11"/><circle class="m-pin" cx="46" cy="88" r="11"/><text x="46" y="91.9" class="t-pin" text-anchor="middle">3</text></g>
+<g class="place" data-pin="4" role="button" tabindex="0" aria-label="Lincoln Road Room"><rect class="ring m-hl" x="32" y="432" width="84" height="106" rx="8"/>
+<text x="74" y="480" class="t-mid" text-anchor="middle">Lincoln</text><text x="74" y="497" class="t-mid" text-anchor="middle">Road</text><text x="74" y="515" class="t-sub" text-anchor="middle">Rooms A to H</text><circle class="pc0" cx="46" cy="446" r="11"/><circle class="m-pin" cx="46" cy="446" r="11"/><text x="46" y="449.9" class="t-pin" text-anchor="middle">4</text></g>
+<g class="place" data-pin="7" role="button" tabindex="0" aria-label="Room 105"><rect class="ring m-hl" x="32" y="544" width="84" height="46" rx="8"/>
+<text x="84" y="572" class="t-mid" text-anchor="middle" style="font-size:13.5px">Room 105</text><circle class="pc0" cx="44" cy="556" r="11"/><circle class="m-pin" cx="44" cy="556" r="11"/><text x="44" y="559.9" class="t-pin" text-anchor="middle">7</text></g>
+<g class="place" data-pin="5" role="button" tabindex="0" aria-label="Room 232, level 2"><rect class="ring m-l2" x="290" y="470" width="102" height="52" rx="10"/>
+<text x="341" y="494" class="t-mid" text-anchor="middle">Room 232</text><text x="341" y="510" class="t-l2" text-anchor="middle">LEVEL 2</text><circle class="pc0" cx="290" cy="470" r="11"/><circle class="m-pin" cx="290" cy="470" r="11"/><text x="290" y="473.9" class="t-pin" text-anchor="middle">5</text></g>
+<g class="place" data-pin="6" role="button" tabindex="0" aria-label="Room 222, level 2"><rect class="ring m-l2" x="146" y="574" width="102" height="52" rx="10"/>
+<text x="197" y="598" class="t-mid" text-anchor="middle">Room 222</text><text x="197" y="614" class="t-l2" text-anchor="middle">LEVEL 2</text><circle class="pc0" cx="146" cy="574" r="11"/><circle class="m-pin" cx="146" cy="574" r="11"/><text x="146" y="577.9" class="t-pin" text-anchor="middle">6</text></g>
+<path d="M352 600 V612" class="m-dash"/>
+<g class="place" data-pin="8" role="button" tabindex="0" aria-label="The Fillmore"><rect class="ring m-l2" x="262" y="612" width="130" height="50" rx="12"/>
+<text x="327" y="634" class="t-mid" text-anchor="middle">The Fillmore</text><text x="327" y="651" class="t-sub" text-anchor="middle">1700 Washington Ave</text><circle class="pc0" cx="262" cy="612" r="11"/><circle class="m-pin" cx="262" cy="612" r="11"/><text x="262" y="615.9" class="t-pin" text-anchor="middle">8</text></g>
+</svg></div>
+    <div class="sec"><div class="sec-h"><h2>Places</h2></div><div class="group" id="places"></div>
+      <div class="sec-note">Drawn from the venue's official Level 1 and Level 2 floor plans, not to scale. Final rooms show in the MAX app the week before the event.</div></div>
+  </section>
+  <section class="view" id="v-people" aria-label="People" hidden></section>
+</main>
+
+<div class="tabbar"><nav role="tablist" aria-label="Sections">
+  <button role="tab" data-tab="today" aria-selected="true"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="6" width="19" height="17.5" rx="4"/><path d="M4.5 11.5h19M9.5 3.8v4M18.5 3.8v4"/><circle cx="14" cy="17.3" r="2.2" fill="currentColor" stroke="none"/></svg>Today</button>
+  <button role="tab" data-tab="agenda" aria-selected="false"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10.5 8h13M10.5 14h13M10.5 20h13"/><circle cx="5.5" cy="8" r="1.4" fill="currentColor" stroke="none"/><circle cx="5.5" cy="14" r="1.4" fill="currentColor" stroke="none"/><circle cx="5.5" cy="20" r="1.4" fill="currentColor" stroke="none"/></svg>Agenda</button>
+  <button role="tab" data-tab="map" aria-selected="false"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3.5 7.5l6.5-3 8 3 6.5-3v16l-6.5 3-8-3-6.5 3z"/><path d="M10 4.5v16M18 7.5v16"/></svg>Map</button>
+  <button role="tab" data-tab="people" aria-selected="false"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="10" r="4"/><path d="M3.8 22.5c.7-4 3.6-6.2 7.2-6.2s6.5 2.2 7.2 6.2"/><circle cx="19.5" cy="9" r="3.2"/><path d="M19.8 15.4c2.7.3 4.5 2.3 5 5.6"/></svg>People</button>
+</nav></div>
+
+<div class="sheet-wrap" id="sheet" hidden>
+  <div class="scrim" data-close></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-label="Details">
+    <div class="sh-bar"><span class="grab"></span><button id="sh-back" hidden>‹ Back</button><button class="done" data-close>Done</button></div>
+    <div class="sh-body" id="shbody"></div>
+  </div>
+</div>
+
+<script>
+const D = {"cat": "https://reg.adobe.com/flow/adobe/m26/sessions/page/catalog?search=", "days": [{"key": "tue", "name": "Tuesday", "date": "Nov 10", "iso": "2026-11-10", "theme": "Platform and pace", "sub": "Graph, partner models and the production layer.", "park": "Creative Park 11:00 am to 8:00 pm", "musts": 3, "items": [{"start": "9:00", "ap": "am", "end": "11:00", "eap": "am", "s": 540, "e": 660, "type": "Keynote", "code": "GS1", "title": "Opening Keynote", "cap": 11000, "speakers": "Shantanu Narayen, Anil Chakravarthy, Forest Key (VP, Agentic Firefly) and Adobe product teams", "why": "Adobe announces its product year here. Listen for Firefly video, custom models and agentic workflows, because that sets what Adobe can offer in the coming months.", "room": "Hall A", "area": "Main exhibit hall", "pin": 1, "kind": "s", "prio": "must", "once": false, "note": null, "book": {"k": "reserve", "t": "Reserve"}, "b": {"alt": "No parallel session in person. The Opening Keynote is also on the MAX Online agenda for Tuesday."}}, {"kind": "g", "start": "11:00", "ap": "am", "end": "12:00", "eap": "pm", "text": "Creative Park opens at 11:00. Walk the Adobe Experience Booth, then the Google and NVIDIA booths. Free headshots are on the floor."}, {"start": "12:00", "ap": "pm", "end": "12:45", "eap": "pm", "s": 720, "e": 765, "type": "Session", "code": "S6602", "title": "Small Teams, Big Looks: AI Workflows for Premium Brand Content", "cap": 495, "speakers": "AJ Bleyer, DGA Director, Advent Films", "why": "A director shows how a small in-house team makes premium brand content with GenAI in tools it already owns. The part that matters is turning existing footage into new premium assets.", "room": "Session Room 6", "area": "Creative Park", "pin": 2, "kind": "s", "prio": "medium", "once": false, "note": null, "book": {"k": "reserve", "t": "Reserve"}, "b": {"start": "12:00", "ap": "pm", "end": "12:45", "eap": "pm", "s": 720, "e": 765, "type": "Session", "code": "S6709", "title": "High-Velocity Filmmaking: From Concept to Edit in Real Time", "cap": 375, "speakers": "Drex Lee, filmmaker", "why": "Live capture to delivered edit with on-device AI in Premiere.", "room": "Session Room 2", "area": "Creative Park", "pin": 2, "book": {"k": "walkin", "t": "Walk-in"}}}, {"start": "1:00", "ap": "pm", "end": "1:20", "eap": "pm", "s": 780, "e": 800, "type": "Demo Spotlight", "code": "AB6472", "title": "Scaling Asset Production with Firefly Creative Production", "cap": 250, "speakers": "Luke Vanderberg, GenStudio Technical Evangelist, Adobe", "why": "Firefly Creative Production for Enterprise generates and resizes personalized variations in batch. Watch how it handles volume and approvals, the production layer behind personalization at scale.", "room": "Demo Theater", "area": "Adobe Experience Booth", "pin": 2, "kind": "s", "prio": "high", "once": false, "note": null, "book": {"k": "reserve", "t": "Reserve · can overlap"}, "b": {"start": "12:45", "ap": "pm", "end": "1:15", "eap": "pm", "s": 765, "e": 795, "type": "Creative Park Talk", "code": "CP6834", "title": "From One Project to 1,000+: How Modern Teams Scale Creative Production", "cap": 250, "speakers": "Steven Niedzielski (LucidLink), Philippe Brodeur (Overcast HQ)", "why": "What breaks first when a team goes to 300+ assets across 25 markets in 22 days.", "room": "Discovery Stage", "area": "Creative Park", "pin": 2, "book": {"k": "reserve", "t": "Reserve too · can overlap"}}}, {"start": "1:30", "ap": "pm", "end": "2:15", "eap": "pm", "s": 810, "e": 855, "type": "Session", "code": "S6205", "title": "Agentic by Design: AI Assistants as Creative Companions", "cap": 395, "speakers": "Ben Vanderberg (Adobe), Shubham Upadhyay (Amazon)", "why": "Adobe and Amazon show assistants that tell a designer whether an asset will pass requirements before export. Watch how the rules are defined and who owns them. A direct reference for automated review.", "room": "Ocean Drive A", "area": "NW side of the exhibit halls", "pin": 3, "kind": "s", "prio": "medium", "once": false, "note": null, "book": {"k": "reserve", "t": "Reserve"}, "b": {"start": "1:30", "ap": "pm", "end": "2:00", "eap": "pm", "s": 810, "e": 840, "type": "Creative Park Talk", "code": "CP6850", "title": "The Future of Design: Multimedia Canvas + AI for Production", "cap": 250, "speakers": "Kaleb Gonyea, Adobe", "why": "One canvas for vector, raster, motion and 3D production work.", "room": "Discovery Stage", "area": "Creative Park", "pin": 2, "book": {"k": "reserve", "t": "Reserve too · can overlap"}}}, {"start": "2:15", "ap": "pm", "end": "2:45", "eap": "pm", "s": 855, "e": 885, "type": "Creative Park Talk", "code": "CP6836", "title": "Earning Customers for Life: The Age of Intelligent Creativity", "cap": 250, "speakers": "John Starkweather (AT&T), Alysson Scartz (Omnicom)", "why": "AT&T and Adobe on personalizing content for millions of customers without losing craft. The useful part is how they replaced manual steps and kept quality.", "room": "Creator Stage", "area": "Creative Park", "pin": 2, "kind": "s", "prio": "medium", "once": false, "note": null, "book": {"k": "reserve", "t": "Reserve · can overlap"}, "b": {"start": "2:30", "ap": "pm", "end": "2:50", "eap": "pm", "s": 870, "e": 890, "type": "Demo Spotlight", "code": "AB6476", "title": "Creator POV: No Hype, just Honest Growth with Firefly", "cap": 250, "speakers": "Sara Nguyen, AI educator", "why": "Lighter option. One creator's honest use of Firefly day to day.", "room": "Demo Theater", "area": "Adobe Experience Booth", "pin": 2, "book": {"k": "reserve", "t": "Reserve too · can overlap"}}}, {"start": "3:00", "ap": "pm", "end": "3:30", "eap": "pm", "s": 900, "e": 930, "type": "Creative Park Talk", "code": "CP6830", "title": "If Everyone Can Create, Who Will Create What Matters?", "cap": 250, "speakers": "Eph Cruz (Comcast), Ryan Porter (Eli Lilly), Amish Dholakia (ServiceNow)", "why": "Short talks from GenAI leaders on scaling creative work while staying on brand. The value is the room. Eph Cruz runs GenAI inside a media company's in-house creative team.", "room": "Discovery Stage", "area": "Creative Park", "pin": 2, "kind": "s", "prio": "high", "once": false, "note": null, "book": {"k": "reserve", "t": "Reserve · can overlap"}, "b": {"start": "3:00", "ap": "pm", "end": "3:20", "eap": "pm", "s": 900, "e": 920, "type": "Demo Spotlight", "code": "AB6470", "title": "See Your Brand Through AI's Eyes", "cap": 250, "speakers": "Eric Matisoff, Adobe", "why": "How a brand and its content show up in AI-powered discovery.", "room": "Demo Theater", "area": "Adobe Experience Booth", "pin": 2, "book": {"k": "reserve", "t": "Reserve too · can overlap"}}}, {"start": "3:30", "ap": "pm", "end": "4:15", "eap": "pm", "s": 930, "e": 975, "type": "Session", "code": "S6202", "title": "From Prompt to System: Design Repeatable Creative Workflows with AI", "cap": 395, "speakers": "Mary Poplin and Manuel Sainsily, Creative Technologists, Adobe", "why": "Live build of Firefly Graph, a node canvas that chains fixed steps and model generations into one repeatable workflow, plus a real enterprise case. Watch what enterprise-ready means to them. Leave the 3:00 talk on time.", "room": "Ocean Drive A", "area": "NW side of the exhibit halls", "pin": 3, "kind": "s", "prio": "must", "once": true, "note": null, "book": {"k": "reserve", "t": "Reserve"}, "b": {"start": "3:30", "ap": "pm", "end": "4:15", "eap": "pm", "s": 930, "e": 975, "type": "Session", "code": "S6801", "title": "Set Out Without Fear: Why AI Is Not Our Creative Titanic", "cap": 395, "speakers": "Laura Jordan Bambach, Uncharted Studio", "why": "Using AI with intent without losing creative voice. Also in Ocean Drive.", "room": "Ocean Drive G", "area": "NW side of the exhibit halls", "pin": 3, "book": {"k": "walkin", "t": "Walk-in"}}}, {"start": "4:30", "ap": "pm", "end": "4:50", "eap": "pm", "s": 990, "e": 1010, "type": "Demo Spotlight", "code": "AB6452", "title": "Building a Product Hero Shot That Doesn't Look Like a Render", "cap": 250, "speakers": "Brian Maffitt, Quality Engineer, After Effects, Adobe", "why": "Lighting, texture and motion techniques that make a 3D or generated image read as real. A quick quality bar for photorealism.", "room": "Demo Theater", "area": "Adobe Experience Booth", "pin": 2, "kind": "s", "prio": "medium", "once": false, "note": null, "book": {"k": "reserve", "t": "Reserve · can overlap"}, "b": {"alt": "No relevant parallel session. Get to the Discovery Stage early, it seats 250."}}, {"start": "5:15", "ap": "pm", "end": "5:45", "eap": "pm", "s": 1035, "e": 1065, "type": "Creative Park Talk", "code": "CP6842", "title": "Keeping Up: Creative Workflows at the Pace of New Models", "cap": 250, "speakers": "Michelle Kwon (COO, Runway), Matt Chotin (Sr Director, Product, GenAI, Adobe)", "why": "A new video model lands every few weeks. Runway and Adobe on absorbing each one without rebuilding the pipeline, and on what Adobe built to evaluate a partner model before release.", "room": "Discovery Stage", "area": "Creative Park", "pin": 2, "kind": "s", "prio": "must", "once": true, "note": null, "book": {"k": "reserve", "t": "Reserve · can overlap"}, "b": {"start": "5:15", "ap": "pm", "end": "6:00", "eap": "pm", "s": 1035, "e": 1080, "type": "Session", "code": "S6382", "title": "AI is Fast, Artists are Faster: Your Creativity + Adobe Firefly", "cap": 495, "speakers": "Emily Bisset, Creative Technologist, Firefly Foundry, Adobe", "why": "Repeats Thursday at 1:00.", "room": "Session Room 6", "area": "Creative Park", "pin": 2, "book": {"k": "walkin", "t": "Walk-in · booked Thu"}}}, {"start": "6:00", "ap": "pm", "end": "6:20", "eap": "pm", "s": 1080, "e": 1100, "type": "Demo Spotlight", "code": "AB6460", "title": "Turning Customer Feedback into Essential Photoshop Features", "cap": 250, "speakers": "Audrey Sousa, Group Product Manager, Photoshop, Adobe", "why": "How a customer request turns into a Photoshop feature. Useful for knowing how to frame an enterprise request to Adobe.", "room": "Demo Theater", "area": "Adobe Experience Booth", "pin": 2, "kind": "s", "prio": "optional", "once": false, "note": null, "book": {"k": "reserve", "t": "Reserve · can overlap"}, "b": {"start": "6:00", "ap": "pm", "end": "6:30", "eap": "pm", "s": 1080, "e": 1110, "type": "Creative Park Talk", "code": "CP6839", "title": "Start Anywhere, Finish Anywhere: A Working Creator's Day", "cap": 250, "speakers": "Danilo Makio Saito, Microsoft", "why": "One project followed from first sketch to final delivery.", "room": "Discovery Stage", "area": "Creative Park", "pin": 2, "book": {"k": "reserve", "t": "Reserve too · can overlap"}}}, {"start": "6:30", "ap": "pm", "end": "8:00", "eap": "pm", "s": 1110, "e": 1200, "type": "Conference Event", "code": "GS4", "title": "Welcome Reception", "cap": null, "speakers": "Adobe teams, sponsors and attendees", "why": "Food and drinks with the whole conference on the show floor. The easiest place to follow up with the 5:15 speakers.", "room": "Creative Park", "area": "Show floor", "pin": 2, "kind": "s", "prio": "network", "once": false, "note": null, "book": {"k": "nobook", "t": "No booking"}, "b": {"start": "7:00", "ap": "pm", "end": "9:00", "eap": "pm", "s": 1140, "e": 1260, "type": "Session", "code": "S6080", "title": "Short Films, Big Stories: A Screening and Filmmaker Conversation", "cap": 1400, "speakers": "Adobe Film & TV Fund filmmakers, moderated by Variety", "why": "Screening with beer and wine, then a talk on creative choices.", "room": "Fillmore Theater", "area": "", "pin": 8, "book": {"k": "reserve", "t": "Reserve too · can overlap"}}}]}, {"key": "wed", "name": "Wednesday", "date": "Nov 11", "iso": "2026-11-11", "theme": "Trust and quality", "sub": "Provenance, brand review and the lab.", "park": "Creative Park 11:30 am to 5:30 pm", "musts": 4, "items": [{"start": "8:15", "ap": "am", "end": "9:00", "eap": "am", "s": 495, "e": 540, "type": "Session", "code": "S6206", "title": "Trust by Design: Creative Workflows Built for Authenticity", "cap": 395, "speakers": "Andy Parsons and Kent Keirsey (Adobe), Pierre-Jean Ferbos and Brittni Wrightson (Eli Lilly)", "why": "Eli Lilly shows brand-safe AI content at scale with Firefly Custom Models. Adobe shows Content Authenticity for Enterprise, the accountability layer on every asset, plus the latest on copyright.", "room": "Ocean Drive A", "area": "NW side of the exhibit halls", "pin": 3, "kind": "s", "prio": "must", "once": true, "note": null, "book": {"k": "reserve", "t": "Reserve"}, "b": {"start": "8:15", "ap": "am", "end": "9:00", "eap": "am", "s": 495, "e": 540, "type": "Session", "code": "S6703", "title": "Studio-Ready Posters: AI Retouching & Compositing in Photoshop", "cap": 295, "speakers": "Jesus Ramirez, Photoshop Training Channel", "why": "Multi-model AI retouching used in paid studio poster work.", "room": "Session Room 1", "area": "Creative Park", "pin": 2, "book": {"k": "walkin", "t": "Walk-in"}}}, {"kind": "g", "start": "9:00", "ap": "am", "end": "10:00", "eap": "am", "text": "No session starts in this hour. Head to Hall A."}, {"start": "10:00", "ap": "am", "end": "11:30", "eap": "am", "s": 600, "e": 690, "type": "Keynote", "code": "GS2", "title": "Inspiration Keynote", "cap": 11000, "speakers": "Jonathan Anderson, Drex Lee, Siobhan Maroney, Omar S. Kamara, Jason Levine (Adobe)", "why": "Top creatives on their process. Low overlap with the work, and it is the only thing running in this slot.", "room": "Hall A", "area": "Main exhibit hall", "pin": 1, "kind": "s", "prio": "optional", "once": false, "note": null, "book": {"k": "reserve", "t": "Reserve"}, "b": {"alt": "No parallel session in person. The Inspiration Keynote is also on the MAX Online agenda for Wednesday."}}, {"kind": "g", "start": "11:30", "ap": "am", "end": "12:15", "eap": "pm", "text": "Lunch is provided. Creative Park opens at 11:30, a good window for a Braindate booked ahead."}, {"start": "12:15", "ap": "pm", "end": "1:00", "eap": "pm", "s": 735, "e": 780, "type": "Session", "code": "S6712", "title": "Build and Direct a Creative Agent for Adobe Photoshop and ComfyUI", "cap": 445, "speakers": "Sabour Amirazodi, Workflow Specialist, NVIDIA", "why": "NVIDIA builds a local agent that wires Photoshop to a ComfyUI pipeline, picks the models and turns a still frame into video. Watch how the agent chooses models, a pattern for orchestrating several in one flow.", "room": "Session Room 3", "area": "Creative Park", "pin": 2, "kind": "s", "prio": "medium", "once": false, "note": null, "book": {"k": "reserve", "t": "Reserve"}, "b": {"start": "12:15", "ap": "pm", "end": "1:00", "eap": "pm", "s": 735, "e": 780, "type": "Session", "code": "S6302", "title": "The Modern Brand Design Toolkit To Scale Creative Production", "cap": 695, "speakers": "Eloise Rouet, Adobe", "why": "Design systems that keep a brand consistent across scaled production.", "room": "Session Room 4", "area": "Creative Park", "pin": 2, "book": {"k": "walkin", "t": "Walk-in"}}}, {"start": "1:00", "ap": "pm", "end": "2:30", "eap": "pm", "s": 780, "e": 870, "type": "Lab", "code": "L6105", "title": "You, Animated: Bring Your Story to Life with Adobe Firefly", "cap": 115, "speakers": "Kris Kashtanova and Gaetan Desimone, Adobe", "why": "Hands-on. You build a 20 to 30 second animation starring a real person, with consistent characters across several image and video models, from storyboard to final cut. The closest thing at MAX to the work itself.", "room": "Room 232", "area": "Lab room", "pin": 5, "kind": "s", "prio": "must", "once": false, "note": "Lab credit 1 of 3. The other two runs clash with must-attend sessions.", "book": {"k": "reserve", "t": "Reserve"}, "b": {"start": "1:00", "ap": "pm", "end": "2:30", "eap": "pm", "s": 780, "e": 870, "type": "Lab", "code": "L6318", "title": "From Static Layers to Cinematic Motion: Photoshop + Firefly", "cap": 76, "speakers": "Chris Converse, Codify Design Studio", "why": "Still frames to production-ready video in Photoshop and Firefly. Advanced level.", "room": "Room 105", "area": "Lab room", "pin": 7, "book": {"k": "walkin", "t": "Walk-in"}}}, {"start": "2:30", "ap": "pm", "end": "2:45", "eap": "pm", "s": 870, "e": 885, "type": "Session", "code": "S6207", "title": "The Rise of the (New) Creative Technologist", "cap": 395, "speakers": "Tammy Pienknagura and Darshit Gandhi (Adobe Firefly Enterprise), Eph Cruz (Comcast), Peter Steiner (Code and Theory)", "why": "Panel on new roles and operating models for AI creative teams. Runs 2:00 to 2:45. Catch the end after the lab and meet three people on this list as they come off stage.", "room": "Ocean Drive A", "area": "NW side of the exhibit halls", "pin": 3, "kind": "s", "prio": "high", "once": false, "note": null, "book": {"k": "walkin", "t": "Walk-in"}, "b": {"start": "2:15", "ap": "pm", "end": "2:45", "eap": "pm", "s": 855, "e": 885, "type": "Creative Park Talk", "code": "CP6838", "title": "Directing, Not Prompting: A Different Way to Think About AI Imagery", "cap": 250, "speakers": "Mark Mordecai, WPP Enterprise Solutions", "why": "A repeatable method to direct AI imagery instead of prompting it.", "room": "Creator Stage", "area": "Creative Park", "pin": 2, "book": {"k": "reserve", "t": "Reserve too · can overlap"}}}, {"start": "3:00", "ap": "pm", "end": "3:30", "eap": "pm", "s": 900, "e": 930, "type": "Creative Park Talk", "code": "CP6840", "title": "Audience of One: How Brands Are Winning in the Agentic Era with Meta", "cap": 250, "speakers": "Jimmie Stone (VP, Creative Shop, Meta), Hussain Ismail (Adobe)", "why": "Meta's Creative Shop on what people remember and share, and how personalization can strengthen an idea instead of diluting it.", "room": "Creator Stage", "area": "Creative Park", "pin": 2, "kind": "s", "prio": "medium", "once": false, "note": null, "book": {"k": "reserve", "t": "Reserve · can overlap"}, "b": {"start": "3:00", "ap": "pm", "end": "3:30", "eap": "pm", "s": 900, "e": 930, "type": "Creative Park Talk", "code": "CP6826", "title": "Burn the Rulebook: How Indie Studios Are Navigating AI", "cap": 250, "speakers": "Shane Griffin, Grif.Studio", "why": "A Miami studio running AI across a commercial production pipeline.", "room": "Discovery Stage", "area": "Creative Park", "pin": 2, "book": {"k": "reserve", "t": "Reserve too · can overlap"}}}, {"start": "4:00", "ap": "pm", "end": "4:45", "eap": "pm", "s": 960, "e": 1005, "type": "Session", "code": "S6201", "title": "Protect Your Brand. Scale Your Creative Craft.", "cap": 395, "speakers": "Aaron Finegold (Firefly Enterprise, Adobe), Ryan Thompson and Sytira Saunders (ServiceNow)", "why": "AI brand review for 30,000 employees, and why output that is almost right is the real risk. Shows where Adobe Brand Intelligence is going. The closest session to automated quality checks.", "room": "Ocean Drive A", "area": "NW side of the exhibit halls", "pin": 3, "kind": "s", "prio": "must", "once": true, "note": null, "book": {"k": "reserve", "t": "Reserve"}, "b": {"start": "4:00", "ap": "pm", "end": "4:45", "eap": "pm", "s": 960, "e": 1005, "type": "Session", "code": "S6802", "title": "Empowering Creators: Defining the Future of Creative Rights", "cap": 195, "speakers": "Kent Keirsey (Adobe), Karen Robinson (SVP, Deputy General Counsel, Adobe)", "why": "Copyright, attribution and creator rights in the AI era.", "room": "Lincoln Road G", "area": "SW corner of the building", "pin": 4, "book": {"k": "walkin", "t": "Walk-in"}}}, {"start": "5:30", "ap": "pm", "end": "7:00", "eap": "pm", "s": 1050, "e": 1140, "type": "Sneaks", "code": "GS3", "title": "MAX Sneaks", "cap": 11000, "speakers": "Adobe Labs researchers, hosted by Terry Crews", "why": "Adobe Labs shows research that may become product. Listen for video, identity consistency and photorealism. Walk over straight from S6201.", "room": "Hall A", "area": "Main exhibit hall", "pin": 1, "kind": "s", "prio": "must", "once": false, "note": null, "book": {"k": "reserve", "t": "Reserve"}, "b": {"alt": "No parallel session in person. Sneaks is also on the MAX Online agenda for Wednesday."}}, {"start": "7:30", "ap": "pm", "end": "10:30", "eap": "pm", "s": 1170, "e": 1350, "type": "Conference Event", "code": "GS5", "title": "MAX Bash", "cap": null, "speakers": "The Black Keys", "why": "The party right after Sneaks, with food and drinks. Optional, but the most informal time with Adobe teams all week.", "room": "Bash venue", "area": "Not yet named in the catalog", "pin": null, "kind": "s", "prio": "network", "once": false, "note": null, "book": {"k": "nobook", "t": "No booking"}, "b": {"alt": "Rest before Thursday."}}]}, {"key": "thu", "name": "Thursday", "date": "Nov 12", "iso": "2026-11-12", "theme": "Video at scale", "sub": "Google, Adobe video and the train home.", "park": "Creative Park 9:00 am to 3:00 pm", "musts": 2, "items": [{"start": "8:00", "ap": "am", "end": "9:30", "eap": "am", "s": 480, "e": 570, "type": "Lab", "code": "L6210", "title": "From Brief to Brand: Build a 360° Campaign with AI", "cap": 145, "speakers": "Tor Gundersen, Principal Customer Strategy & Success Specialist, Adobe", "why": "Hands-on. From a creative brief and an existing brand, you build a full campaign with Firefly AI Assistant and Firefly Boards, hero assets included. It fills a morning with nothing else that matters.", "room": "Room 222", "area": "Lab room", "pin": 6, "kind": "s", "prio": "high", "once": false, "note": "Lab credit 2 of 3.", "book": {"k": "reserve", "t": "Reserve"}, "b": {"start": "8:30", "ap": "am", "end": "9:15", "eap": "am", "s": 510, "e": 555, "type": "Session", "code": "S6800", "title": "Creative Courage, Craft, and AI Workflows That Actually Work", "cap": 375, "speakers": "Dan Fletcher and Tomasz Opasinski, Adobe", "why": "Lessons from running GenAI across Adobe's own global campaigns.", "room": "Session Room 2", "area": "Creative Park", "pin": 2, "book": {"k": "walkin", "t": "Walk-in"}}}, {"kind": "g", "start": "9:30", "ap": "am", "end": "10:00", "eap": "am", "text": "Creative Park opens at 9:00. Coffee, then the Discovery Stage."}, {"start": "10:00", "ap": "am", "end": "10:30", "eap": "am", "s": 600, "e": 630, "type": "Creative Park Talk", "code": "CP6843", "title": "From Idea to Motion: Kling's Latest Model Accelerates Creative Production", "cap": 250, "speakers": "Kling AI team", "why": "Kling introduces its newest video model with use cases from previsualization to scaled production. A quick read on where third-party video models stand.", "room": "Discovery Stage", "area": "Creative Park", "pin": 2, "kind": "s", "prio": "optional", "once": false, "note": null, "book": {"k": "reserve", "t": "Reserve · can overlap"}, "b": {"alt": "No relevant parallel session. Walk to Lincoln Road E early, it seats 195."}}, {"start": "10:30", "ap": "am", "end": "10:55", "eap": "am", "s": 630, "e": 655, "type": "Session", "code": "S6711", "title": "Creative Firepower and Enterprise Armor: Scaling Google Gen Media", "cap": 195, "speakers": "Google team, speakers not listed", "why": "Google on copyright, training data and leakage of unreleased assets, the real blockers for enterprise GenAI, and how brands use its media models with legal confidence. Session ends 11:15. Leave at 10:55.", "room": "Lincoln Road E", "area": "SW corner of the building", "pin": 4, "kind": "s", "prio": "must", "once": true, "note": null, "book": {"k": "reserve", "t": "Reserve"}, "b": {"start": "10:30", "ap": "am", "end": "11:15", "eap": "am", "s": 630, "e": 675, "type": "Session", "code": "S6203", "title": "The Creative Team of the Future: Faster, Smarter, More Human", "cap": 395, "speakers": "Resh Sidhu, VP, Creative, Adobe", "why": "What broke when Adobe's own creative team went AI-native.", "room": "Ocean Drive A", "area": "NW side of the exhibit halls", "pin": 3, "book": {"k": "walkin", "t": "Walk-in"}}}, {"start": "11:00", "ap": "am", "end": "11:20", "eap": "am", "s": 660, "e": 680, "type": "Demo Spotlight", "code": "AB6454", "title": "Personalization at Scale: One Video, a Thousand Cuts", "cap": 250, "speakers": "Kevin Towes, Product Director, Firefly Enterprise Video, Adobe", "why": "The person who leads Firefly Enterprise video shows one video becoming hundreds of variations through modular workflows. The most direct demo for video at scale. Stay and talk to him after.", "room": "Demo Theater", "area": "Adobe Experience Booth", "pin": 2, "kind": "s", "prio": "must", "once": true, "note": null, "book": {"k": "reserve", "t": "Reserve · can overlap"}, "b": {"start": "10:30", "ap": "am", "end": "11:15", "eap": "am", "s": 630, "e": 675, "type": "Session", "code": "S6711", "title": "Creative Firepower and Enterprise Armor: Scaling Google Gen Media", "cap": 195, "speakers": "Google team", "why": "Stay to the end, then find Kevin Towes at the Adobe Experience Booth.", "room": "Lincoln Road E", "area": "SW corner of the building", "pin": 4, "book": {"k": "reserve", "t": "Already booked"}}}, {"start": "11:30", "ap": "am", "end": "12:00", "eap": "pm", "s": 690, "e": 720, "type": "Creative Park Talk", "code": "CP6851", "title": "Breaking the Creative Assembly Line: Golden State Warriors + Adobe", "cap": 250, "speakers": "Cristina Pandol, Executive Creative Director, Golden State Warriors", "why": "The Warriors explored four creative territories together on one Firefly Board, then executed in each app. A working model for structured AI ideation at an entertainment brand.", "room": "Discovery Stage", "area": "Creative Park", "pin": 2, "kind": "s", "prio": "medium", "once": false, "note": null, "book": {"k": "reserve", "t": "Reserve · can overlap"}, "b": {"start": "11:30", "ap": "am", "end": "11:50", "eap": "am", "s": 690, "e": 710, "type": "Demo Spotlight", "code": "AB6480", "title": "Creator POV: Level Up Your Creative Grind With Boards", "cap": 250, "speakers": "Lucas O'Keefe, creator", "why": "Firefly Boards from ideation to storyboard to production.", "room": "Demo Theater", "area": "Adobe Experience Booth", "pin": 2, "book": {"k": "reserve", "t": "Reserve too · can overlap"}}}, {"start": "12:00", "ap": "pm", "end": "12:20", "eap": "pm", "s": 720, "e": 740, "type": "Demo Spotlight", "code": "AB6467", "title": "The Taste Layer: What AI Can't Commoditize", "cap": 250, "speakers": "Amanda Fetterly, Director of Design, Adobe Express", "why": "Adobe's design director on the rubrics and evaluations written by professionals that teach models to follow a style. The clearest reference at MAX for quality rubrics on AI output.", "room": "Demo Theater", "area": "Adobe Experience Booth", "pin": 2, "kind": "s", "prio": "high", "once": false, "note": null, "book": {"k": "reserve", "t": "Reserve · can overlap"}, "b": {"start": "12:30", "ap": "pm", "end": "12:50", "eap": "pm", "s": 750, "e": 770, "type": "Demo Spotlight", "code": "AB6481", "title": "Creative POV: Firefly, Ignite & Empower Imagination", "cap": 250, "speakers": "Harry Allsop, creator", "why": "Image generation to Generate Video while keeping creative direction.", "room": "Demo Theater", "area": "Adobe Experience Booth", "pin": 2, "book": {"k": "reserve", "t": "Reserve too · can overlap"}}}, {"kind": "g", "start": "12:20", "ap": "pm", "end": "1:00", "eap": "pm", "text": "Lunch is provided."}, {"start": "1:00", "ap": "pm", "end": "1:45", "eap": "pm", "s": 780, "e": 825, "type": "Session", "code": "S6382", "title": "AI is Fast, Artists are Faster: Your Creativity + Adobe Firefly", "cap": 495, "speakers": "Emily Bisset, Creative Technologist, Firefly Foundry, Adobe", "why": "An introductory Firefly overview. Go for the speaker, who works on Firefly Foundry, Adobe's program for models trained on a company's own content.", "room": "Session Room 6", "area": "Creative Park", "pin": 2, "kind": "s", "prio": "medium", "once": false, "note": null, "book": {"k": "reserve", "t": "Reserve"}, "b": {"start": "1:00", "ap": "pm", "end": "1:45", "eap": "pm", "s": 780, "e": 825, "type": "Session", "code": "S6714", "title": "Strategy ❤ Creative: A Love Story for the AI Era", "cap": 295, "speakers": "Jovan Dupor and Octavio Maron, Dentsu", "why": "Connecting strategy, creative and data in AI-era teams.", "room": "Session Room 1", "area": "Creative Park", "pin": 2, "book": {"k": "walkin", "t": "Walk-in"}}}, {"start": "2:00", "ap": "pm", "end": "2:20", "eap": "pm", "s": 840, "e": 860, "type": "Demo Spotlight", "code": "AB6468", "title": "Turn a Conversation into a Campaign in Minutes", "cap": 247, "speakers": "Sneha Chowdhary, Principal Product Manager, Adobe", "why": "An agent turns a brief into a launched social and email campaign through conversation. Shows how far Adobe automates with no manual step. Leave the moment it ends.", "room": "Demo Theater", "area": "Adobe Experience Booth", "pin": 2, "kind": "s", "prio": "optional", "once": false, "note": null, "book": {"k": "reserve", "t": "Reserve · can overlap"}, "b": {"alt": "Skip it and leave at 2:00 for extra margin."}}, {"kind": "t", "start": "2:20", "ap": "pm", "s": 860, "e": 960}]}], "people": [{"name": "Kevin Towes", "role": "Product Director, Firefly Enterprise Video", "org": "Adobe", "why": "Leads product for Firefly Enterprise video. The person for turning one video into many variations at scale.", "tier": 1, "where": [{"t": "Thu 11:00", "code": "AB6454", "room": "Demo Theater"}], "social": [{"k": "LinkedIn", "h": "search", "u": "https://www.linkedin.com/search/results/people/?keywords=Kevin%20Towes%20Adobe", "search": true}], "hasSocial": false}, {"name": "Matt Chotin", "role": "Sr Director, Product, GenAI", "org": "Adobe", "why": "On stage with Runway about how Adobe brings new models into its tools and evaluates them first.", "tier": 1, "where": [{"t": "Tue 5:15", "code": "CP6842", "room": "Discovery Stage"}], "social": [{"k": "LinkedIn", "h": "search", "u": "https://www.linkedin.com/search/results/people/?keywords=Matt%20Chotin%20Adobe", "search": true}], "hasSocial": false}, {"name": "Kent Keirsey", "role": "Director, Product, Firefly & Agentic", "org": "Adobe", "why": "Product lead for agentic Firefly, and on stage for both trust and creative rights.", "tier": 1, "where": [{"t": "Wed 8:15", "code": "S6206", "room": "Ocean Drive A"}, {"t": "Wed 4:00", "code": "S6802", "room": "Lincoln Road G"}], "social": [{"k": "LinkedIn", "h": "in/kentkeirsey", "u": "https://www.linkedin.com/in/kentkeirsey/"}], "hasSocial": true}, {"name": "Andy Parsons", "role": "Global Head of Content Authenticity", "org": "Adobe", "why": "Leads Adobe's Content Authenticity work, including Content Credentials for AI-made media.", "tier": 1, "where": [{"t": "Wed 8:15", "code": "S6206", "room": "Ocean Drive A"}], "social": [{"k": "LinkedIn", "h": "search", "u": "https://www.linkedin.com/search/results/people/?keywords=Andy%20Parsons%20Adobe%20Content%20Authenticity", "search": true}], "hasSocial": false}, {"name": "Aaron Finegold", "role": "Head of Product Marketing, Firefly Enterprise", "org": "Adobe", "why": "Brand Intelligence and automated brand validation at enterprise scale.", "tier": 1, "where": [{"t": "Wed 4:00", "code": "S6201", "room": "Ocean Drive A"}], "social": [{"k": "LinkedIn", "h": "search", "u": "https://www.linkedin.com/search/results/people/?keywords=Aaron%20Finegold%20Adobe", "search": true}], "hasSocial": false}, {"name": "Mary Poplin + Manuel Sainsily", "role": "Creative Technologists, Firefly Graph", "org": "Adobe", "why": "Hands-on experts on repeatable node workflows that mix fixed steps with generation.", "tier": 1, "where": [{"t": "Tue 3:30", "code": "S6202", "room": "Ocean Drive A"}], "social": [{"k": "LinkedIn", "h": "in/marypoplin", "u": "https://www.linkedin.com/in/marypoplin/"}, {"k": "LinkedIn", "h": "in/manuvision", "u": "https://www.linkedin.com/in/manuvision/"}, {"k": "Instagram", "h": "@manu.vision", "u": "https://instagram.com/manu.vision"}], "hasSocial": true}, {"name": "Tammy Pienknagura + Darshit Gandhi", "role": "Product Marketing and Customer Engagement, Firefly Enterprise", "org": "Adobe", "why": "The go-to-market and customer side of Firefly Enterprise, on one stage.", "tier": 2, "where": [{"t": "Wed 2:00", "code": "S6207", "room": "Ocean Drive A"}], "social": [{"k": "LinkedIn", "h": "search", "u": "https://www.linkedin.com/search/results/people/?keywords=Firefly%20Enterprise%20Adobe%20Pienknagura", "search": true}], "hasSocial": false}, {"name": "Eph Cruz", "role": "Director, GenAI and Creative Technology", "org": "Comcast", "why": "A peer leading GenAI inside a media company's in-house creative team. Has held customer advisory roles with Adobe.", "tier": 2, "where": [{"t": "Tue 3:00", "code": "CP6830", "room": "Discovery Stage"}, {"t": "Wed 2:00", "code": "S6207", "room": "Ocean Drive A"}], "social": [{"k": "LinkedIn", "h": "in/ephraimgerard", "u": "https://www.linkedin.com/in/ephraimgerard/"}, {"k": "Instagram", "h": "@quantumeph", "u": "https://www.instagram.com/quantumeph"}], "hasSocial": true}, {"name": "Michelle Kwon", "role": "Chief Operating Officer", "org": "Runway", "why": "Ships frontier video models on a fast cadence. The vendor view on absorbing new models.", "tier": 2, "where": [{"t": "Tue 5:15", "code": "CP6842", "room": "Discovery Stage"}], "social": [{"k": "LinkedIn", "h": "search", "u": "https://www.linkedin.com/search/results/people/?keywords=Michelle%20Kwon%20Runway", "search": true}], "hasSocial": false}, {"name": "Emily Bisset", "role": "Creative Technologist, Firefly Foundry", "org": "Adobe", "why": "Works on Foundry, Adobe's program for models trained on a company's own content.", "tier": 2, "where": [{"t": "Tue 5:15", "code": "S6382", "room": "Session Room 6"}, {"t": "Thu 1:00", "code": "S6382", "room": "Session Room 6"}], "social": [{"k": "LinkedIn", "h": "in/emily-bisset", "u": "https://www.linkedin.com/in/emily-bisset-294718130/"}, {"k": "Instagram", "h": "@3bisset", "u": "https://www.instagram.com/3bisset"}, {"k": "X", "h": "@3bisset", "u": "https://www.x.com/3bisset"}], "hasSocial": true}, {"name": "Kris Kashtanova", "role": "Principal Creative AI Evangelist", "org": "Adobe", "why": "Leads the lab on consistent characters from real photos across image and video models.", "tier": 2, "where": [{"t": "Wed 1:00", "code": "L6105", "room": "Room 232"}], "social": [{"k": "LinkedIn", "h": "in/kris-kashtanova", "u": "https://www.linkedin.com/in/kris-kashtanova-291abb5a/"}, {"k": "Instagram", "h": "@kris.kashtanova", "u": "https://www.instagram.com/kris.kashtanova"}, {"k": "X", "h": "@icreatelife", "u": "https://x.com/icreatelife"}], "hasSocial": true}, {"name": "Amanda Fetterly", "role": "Director of Design, Adobe Express", "org": "Adobe", "why": "Encodes design judgment as rubrics and evaluations inside AI output.", "tier": 2, "where": [{"t": "Thu 12:00", "code": "AB6467", "room": "Demo Theater"}], "social": [{"k": "LinkedIn", "h": "search", "u": "https://www.linkedin.com/search/results/people/?keywords=Amanda%20Fetterly%20Adobe", "search": true}], "hasSocial": false}], "pins": {"1": {"name": "Hall A", "desc": "Level 1. Keynotes and Sneaks."}, "2": {"name": "Creative Park", "desc": "Level 1. Stages, Demo Theater, Session Rooms 1 to 6."}, "3": {"name": "Ocean Drive Room", "desc": "Level 1. NW corner, off the Grand Lobby."}, "4": {"name": "Lincoln Road Room", "desc": "Level 1. SW corner, off the Grand Lobby."}, "5": {"name": "Room 232", "desc": "Level 2. East side. Wednesday lab."}, "6": {"name": "Room 222", "desc": "Level 2. South side. Thursday lab."}, "7": {"name": "Room 105", "desc": "Level 1. SW corner. Wednesday plan B lab."}, "8": {"name": "The Fillmore", "desc": "Off the building. Tuesday evening plan B."}}};
+const DAYC = { tue: 'var(--tue)', wed: 'var(--wed)', thu: 'var(--thu)' };
+const PRIO = { must: 'Must attend', high: 'High', medium: 'Medium', optional: 'Optional', network: 'Evening' };
+const LONG = { tue: 'Tuesday', wed: 'Wednesday', thu: 'Thursday' };
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const store = { get(k) { try { return localStorage.getItem(k) } catch (e) { return null } }, set(k, v) { try { localStorage.setItem(k, v) } catch (e) {} } };
+const CHEV = '<svg class="chev" viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.5 7.5 7.5 1.5 13.5"/></svg>';
+const ART = '<svg class="art" viewBox="0 0 230 230" aria-hidden="true"><defs><linearGradient id="ha" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FC4B84"/><stop offset="1" stop-color="#EB1000"/></linearGradient><linearGradient id="hb" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#012579"/><stop offset="1" stop-color="#2C8E91"/></linearGradient></defs><circle cx="150" cy="84" r="76" fill="url(#hb)"/><path d="M150 8 A76 76 0 0 1 226 84 L150 84 Z" fill="url(#ha)"/><circle cx="52" cy="70" r="9" fill="none" stroke="url(#ha)" stroke-width="4.5"/><circle cx="170" cy="196" r="12" fill="#D1BE4E"/></svg>';
+const st = { tab: 'today', day: 'tue', mapDay: 'all', pin: null };
+
+/* time in Miami */
+const fmt = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+const fmtLong = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'long', month: 'long', day: 'numeric' });
+function nowNY() { const p = Object.fromEntries(fmt.formatToParts(new Date()).map(x => [x.type, x.value])); return { iso: `${p.year}-${p.month}-${p.day}`, min: (+p.hour % 24) * 60 + +p.minute } }
+const dur = m => m < 60 ? `${m} min` : `${Math.floor(m / 60)} h${m % 60 ? ' ' + (m % 60) + ' min' : ''}`;
+const dayDiff = (a, b) => Math.round((Date.parse(b + 'T12:00:00Z') - Date.parse(a + 'T12:00:00Z')) / 864e5);
+const TL = [];
+D.days.forEach((d, di) => d.items.forEach(it => { if (it.kind === 's' || it.kind === 't') TL.push({ it, d, di, a: di * 1440 + it.s, b: di * 1440 + it.e }) }));
+function position() {
+  const n = nowNY(), di = D.days.findIndex(d => d.iso === n.iso);
+  if (di >= 0) return { phase: 'during', abs: di * 1440 + n.min, di, n };
+  if (n.iso < D.days[0].iso) return { phase: 'before', days: dayDiff(n.iso, D.days[0].iso), n };
+  return { phase: 'after', n };
+}
+const findItem = (dk, code) => { const d = D.days.find(x => x.key === dk); for (const it of d.items) { if (it.kind !== 's') continue; if (it.code === code) return { d, it, plan: false }; if (!it.b.alt && it.b.code === code) return { d, it, plan: true } } return null };
+
+/* rows */
+function sub(it) {
+  const pr = (it.prio === 'must' || it.prio === 'high' || it.prio === 'network') ? `${PRIO[it.prio]} · ` : '';
+  return `<span class="rsub"><i class="dot ${it.prio}"></i><span>${pr}${esc(it.room)}</span></span>`;
+}
+function rowsFor(d, opts = {}) {
+  const p = position(), di = D.days.indexOf(d), cur = p.phase === 'during' && p.di === di ? p.n.min : -1;
+  return d.items.map(it => {
+    if (it.kind === 'g') return opts.noGaps ? '' : `<div class="rowgap"><b>${it.start} to ${it.end} ${it.eap}</b>${esc(it.text)}</div>`;
+    const isNow = cur >= it.s && cur < it.e;
+    if (it.kind === 't') return `<button class="row${isNow ? ' now' : ''}" data-open="t:${d.key}"><span class="rt"><b>2:20</b><small>PM</small></span><span class="rm"><span class="rtitle">Leave for the 4:00 pm Brightline</span><span class="rsub"><i class="dot travel"></i><span>MiamiCentral station</span></span></span>${CHEV}</button>`;
+    return `<button class="row${isNow ? ' now' : ''}" data-open="s:${d.key}:${it.code}"><span class="rt"><b>${it.start}</b><small>${it.ap.toUpperCase()}</small></span><span class="rm">${isNow ? '<span class="nowtag">Now</span>' : ''}<span class="rtitle">${esc(it.title)}</span>${sub(it)}</span>${CHEV}</button>`;
+  }).join('');
+}
+
+/* today */
+function hero() {
+  const p = position();
+  if (p.phase === 'before') {
+    const f = TL[0].it;
+    return `<div class="hero">${ART}<div class="h-eye">Adobe MAX 2026 · Miami Beach</div><h2>Starts in ${p.days} ${p.days === 1 ? 'day' : 'days'}</h2><div class="h-meta">First up ${esc(f.title)}, Tue 9:00 am in ${esc(f.room)}</div>
+      <div class="h-acts"><button class="pill-btn light" data-open="i:booking">Book by Oct 20</button><button class="pill-btn glass" data-open="s:tue:${f.code}">Details</button></div></div>`;
+  }
+  if (p.phase === 'after') return `<div class="hero">${ART}<div class="h-eye">Adobe MAX 2026</div><h2>That's a wrap</h2><div class="h-meta">Everything stays here for reference.</div></div>`;
+  const cur = TL.filter(x => x.a <= p.abs && p.abs < x.b && x.it.kind === 's').pop();
+  const nxt = TL.find(x => x.a > p.abs);
+  const block = (x, eye) => {
+    const it = x.it;
+    if (it.kind === 't') return `<div class="h-eye">${eye}</div><h2>Leave for Brightline</h2><div class="h-meta">2:20 pm · train at 4:00 pm from MiamiCentral</div><div class="h-acts"><button class="pill-btn light" data-open="t:thu">Details</button></div>`;
+    return `<div class="h-eye">${eye}</div><h2>${esc(it.title)}</h2><div class="h-meta">${it.start} to ${it.end} ${it.eap} · ${esc(it.room)}</div>
+      <div class="h-acts"><button class="pill-btn light" data-open="s:${x.d.key}:${it.code}">Details</button>${it.pin ? `<button class="pill-btn glass" data-map="${it.pin}" data-mday="${x.d.key}">Map</button>` : ''}</div>`;
+  };
+  if (cur) return `<div class="hero">${ART}${block(cur, `<span class="live"></span>Now · ${dur(cur.b - p.abs)} left`)}${nxt ? `<div class="h-next">Next <b>${nxt.it.kind === 't' ? 'Leave for Brightline' : esc(nxt.it.title)}</b> at ${nxt.it.start} ${nxt.it.ap}</div>` : ''}</div>`;
+  if (nxt) return `<div class="hero">${ART}${block(nxt, nxt.di === p.di ? `Up next · in ${dur(nxt.a - p.abs)}` : `Up next · ${nxt.d.name}`)}</div>`;
+  return `<div class="hero">${ART}<div class="h-eye">${D.days[p.di].name}</div><h2>Done for today</h2><div class="h-meta">Rest up for tomorrow.</div></div>`;
+}
+function renderToday() {
+  const p = position();
+  const d = p.phase === 'during' ? D.days[p.di] : p.phase === 'after' ? D.days[2] : D.days[0];
+  const eyebrow = p.phase === 'during' ? fmtLong.format(new Date()) : p.phase === 'before' ? `${p.days} days to MAX` : 'Adobe MAX 2026';
+  const label = p.phase === 'during' ? 'Today' : `${LONG[d.key]}, ${d.date}`;
+  $('#v-today').innerHTML = `
+    <div class="lt"><div><div class="eyebrow">${esc(eyebrow)}</div><h1>Mo's <span class="grad">MAX</span></h1></div><button class="avatar" data-open="i:about" aria-label="About this app">M</button></div>
+    ${hero()}
+    <div class="sec"><div class="sec-h"><h2>${esc(label)}</h2><button data-tab-go="agenda" data-day="${d.key}">See all</button></div>
+      <div class="group">${rowsFor(d, { noGaps: true })}</div>
+      <div class="sec-note">${esc(d.theme)}. Creative Park ${esc(d.park.replace('Creative Park ', ''))}.</div></div>
+    <div class="sec"><div class="sec-h"><h2>Good to know</h2></div><div class="group">
+      ${info('booking', '#D70F00', 'Booking and waitlists', 'Waitlists close Tue, Oct 20', '<path d="M5 7.5h18v14H5zM5 12h18M10 4.5v4M18 4.5v4"/>')}
+      ${info('evenings', '#2C8E91', 'Labs and evenings', '2 lab credits, Reception, Sneaks, Bash', '<path d="M18.5 5.5a8.5 8.5 0 1 0 4 11.5 7 7 0 0 1-4-11.5z"/>')}
+      ${info('where', '#012579', 'Where things are', 'Halls, rooms and levels', '<path d="M14 24s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="14" cy="12" r="2.6"/>')}
+      ${info('about', '#8E8E93', 'Sources and about', 'Official catalog, FAQ, floor plans', '<circle cx="14" cy="14" r="9.5"/><path d="M14 13v6M14 9.2v.2"/>')}
+    </div></div>`;
+}
+function info(key, color, title, subt, path) {
+  return `<button class="row plain" data-open="i:${key}"><span class="ico" style="background:${color}"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${path}</svg></span><span class="rm"><span class="rtitle">${title}</span><span class="rsub"><span>${subt}</span></span></span>${CHEV}</button>`;
+}
+
+/* agenda */
+function renderAgenda() {
+  const d = D.days.find(x => x.key === st.day);
+  $('#v-agenda').innerHTML = `
+    <div class="lt"><div><div class="eyebrow">Nov 10 to 12 · Miami Beach</div><h1>Agenda</h1></div></div>
+    <div class="seg" role="group" aria-label="Day">${D.days.map(x => `<button aria-pressed="${x.key === st.day}" data-day-pick="${x.key}">${x.name.slice(0, 3)} ${x.date.split(' ')[1]}</button>`).join('')}</div>
+    <div class="dayinfo"><b>${esc(d.theme)}.</b> ${esc(d.sub)} ${d.musts} must attend. ${esc(d.park)}.</div>
+    <div class="group">${rowsFor(d)}</div>`;
+}
+
+/* map */
+const PLACES = {};
+D.days.forEach(d => d.items.forEach(it => {
+  if (it.kind !== 's') return;
+  const add = (o, role) => { if (o && o.pin) (PLACES[o.pin] ||= []).push({ d, o, role, main: it }) };
+  add(it, 'main'); if (!it.b.alt) add(it.b, 'b');
+}));
+function renderMap() {
+  $('#mapseg').innerHTML = [['all', 'All'], ...D.days.map(d => [d.key, d.name.slice(0, 3)])].map(([k, l]) => `<button aria-pressed="${st.mapDay === k}" data-mapday="${k}">${l}</button>`).join('');
+  document.querySelectorAll('.vm .place').forEach(g => {
+    const n = +g.dataset.pin, l = PLACES[n] || [];
+    g.classList.toggle('dim', !(st.mapDay === 'all' ? l.length : l.some(x => x.d.key === st.mapDay)));
+    g.classList.toggle('sel', n === st.pin);
+  });
+  $('#places').innerHTML = Object.entries(D.pins).map(([n, p]) => {
+    const l = (PLACES[n] || []).filter(x => st.mapDay === 'all' || x.d.key === st.mapDay);
+    return `<button class="row plain" data-open="p:${n}" ${l.length ? '' : 'style="opacity:.45"'}><span class="pnum">${n}</span><span class="rm"><span class="rtitle">${esc(p.name)}</span><span class="rsub"><span>${l.length ? l.length + (l.length === 1 ? ' session' : ' sessions') : 'Nothing this day'} · ${esc(p.desc.split('.')[0])}</span></span></span>${CHEV}</button>`;
+  }).join('');
+}
+function goMap(pin, day) {
+  closeSheet(true);
+  st.pin = +pin; if (day) st.mapDay = day;
+  setTab('map'); renderMap();
+  const c = document.querySelector(`.vm .place[data-pin="${pin}"] .pc0`);
+  if (c) { c.classList.remove('pulse'); void c.getBBox(); c.classList.add('pulse') }
+  $('#mapcard').scrollIntoView({ block: 'center', behavior: 'smooth' });
+}
+
+/* people */
+const initials = n => n.split(' + ')[0].split(' ').map(w => w[0]).slice(0, 2).join('');
+function renderPeople() {
+  const grp = t => D.people.map((p, i) => [p, i]).filter(([p]) => p.tier === t).map(([p, i]) => `<button class="row person" data-open="u:${i}"><span class="pav t${p.tier}">${esc(initials(p.name))}</span><span class="rm"><span class="rtitle">${esc(p.name)}</span><span class="rsub"><span>${esc(p.org)} · ${esc(p.where.map(w => w.t).join(', '))}</span></span></span>${CHEV}</button>`).join('');
+  $('#v-people').innerHTML = `
+    <div class="lt"><div><div class="eyebrow">14 people, where to find them</div><h1>People</h1></div></div>
+    <div class="sec"><div class="sec-h"><h2>First priority</h2></div><div class="group">${grp(1)}</div></div>
+    <div class="sec"><div class="sec-h"><h2>Worth a hello</h2></div><div class="group">${grp(2)}</div>
+      <div class="sec-note">Socials come from each person's official MAX speaker profile.</div></div>`;
+}
+
+/* sheets */
+const stack = [];
+function openSheet(fn, push) {
+  if (push && stack.length) stack.push(fn); else { stack.length = 0; stack.push(fn) }
+  draw();
+  const w = $('#sheet');
+  if (w.hidden) { w.hidden = false; document.body.style.overflow = 'hidden'; requestAnimationFrame(() => requestAnimationFrame(() => w.classList.add('open'))) }
+}
+function draw() { $('#shbody').innerHTML = stack[stack.length - 1](); $('#sh-back').hidden = stack.length < 2; $('#shbody').scrollTop = 0 }
+function closeSheet(fast) {
+  const w = $('#sheet'); if (w.hidden) return;
+  w.classList.remove('open'); document.body.style.overflow = '';
+  const fin = () => { w.hidden = true; stack.length = 0 };
+  fast ? fin() : setTimeout(fin, 300);
+}
+const tagB = b => b ? `<span class="tag ${b.k}">${esc(b.t)}</span>` : '';
+const catBtn = code => `<a class="cta" href="${D.cat}${code}" target="_blank" rel="noopener">Open ${code} in the catalog</a>`;
+function sessionSheet(dk, code) {
+  const f = findItem(dk, code); if (!f) return '<p>Not found.</p>';
+  const { d, it, plan } = f;
+  const o = plan ? it.b : it;
+  const area = [o.area, o.cap ? `${o.cap.toLocaleString('en-US')} seats` : ''].filter(Boolean).join(' · ');
+  const loc = `<div class="card loccard">${o.pin ? `<span class="pnum">${o.pin}</span>` : '<span class="pnum q">?</span>'}<div><b>${esc(o.room)}</b><span>${esc(area || 'Venue not named yet in the catalog')}</span></div>${o.pin ? `<button class="mapbtn" data-map="${o.pin}" data-mday="${d.key}">Map</button>` : ''}</div>`;
+  let html = `<div class="sh-title"><div class="eyebrow">${LONG[d.key]} · ${o.start} ${o.ap} to ${o.end} ${o.eap}${plan ? ' · Plan B' : ''}</div><h2>${esc(o.title)}</h2>
+    <div class="tags">${plan ? '' : `<span class="tag ${it.prio}">${PRIO[it.prio]}</span>`}${tagB(o.book)}${!plan && it.once ? '<span class="tag once">Only time it runs</span>' : ''}<span class="tag">${esc(o.type)} · ${o.code}</span></div></div>
+    ${loc}
+    <div class="card"><h3>${plan ? 'Why it is the plan B' : 'Why it matters'}</h3><p>${esc(o.why)}</p></div>
+    <div class="card"><h3>Speakers</h3><p class="small">${esc(o.speakers)}</p></div>`;
+  if (!plan && it.note) html += `<div class="card"><h3>Lab credit</h3><p class="small">${esc(it.note)}</p></div>`;
+  if (plan) html += `<div class="sec"><div class="sec-h"><h2>Main pick in this slot</h2></div><div class="group"><button class="row" data-push="s:${d.key}:${it.code}"><span class="rt"><b>${it.start}</b><small>${it.ap.toUpperCase()}</small></span><span class="rm"><span class="rtitle">${esc(it.title)}</span>${sub(it)}</span>${CHEV}</button></div></div>`;
+  else {
+    const b = it.b;
+    html += `<div class="sec"><div class="sec-h"><h2>Plan B</h2></div>` + (b.alt ? `<div class="card"><p class="small">${esc(b.alt)}</p></div>` :
+      `<div class="pbcard"><span class="pbt">${b.start} ${b.ap} to ${b.end} ${b.eap} · ${esc(b.type)} · ${b.code}</span><h4>${esc(b.title)}</h4><span class="small" style="font-size:14px;color:var(--label2)">${esc(b.room)}${b.area ? ' · ' + esc(b.area) : ''}</span><span class="why2">${esc(b.why)}</span>
+        <div class="pbacts">${tagB(b.book)}</div><div class="pbacts"><button class="mapbtn" data-push="s:${d.key}:${b.code}">Details</button>${b.pin ? `<button class="mapbtn" data-map="${b.pin}" data-mday="${d.key}">Map</button>` : ''}</div></div>`) + `</div>`;
+  }
+  return html + catBtn(o.code);
+}
+function trainSheet() {
+  return `<div class="sh-title"><div class="eyebrow">Thursday · 2:20 pm</div><h2>Leave for the 4:00 pm Brightline</h2><div class="tags"><span class="tag">Travel to Orlando</span></div></div>
+    <div class="card loccard"><span class="pnum" style="background:#0190CD;color:#fff">↗</span><div><b>Brightline MiamiCentral</b><span>600 NW 1st Ave, Miami</span></div></div>
+    <div class="card"><h3>Why now</h3><p>Brightline asks you to arrive 15 to 20 minutes early. Boarding opens about 10 minutes before departure, and checked bags need 15 minutes. Leaving at 2:20 gives 1 hour 40 minutes for the drive and the station.</p></div>
+    <div class="card"><h3>Plan B</h3><p class="small">If traffic looks heavy at 2:00, skip the demo and go. Sessions after 2:20 are left out on purpose.</p></div>`;
+}
+function placeSheet(n) {
+  const p = D.pins[n];
+  const l = (PLACES[n] || []).filter(x => st.tab !== 'map' || st.mapDay === 'all' || x.d.key === st.mapDay);
+  return `<div class="sh-title"><div class="eyebrow">Place ${n}</div><h2>${esc(p.name)}</h2></div>
+    <div class="card"><p class="small">${esc(p.desc)}</p></div>
+    <div class="group">${l.map(x => `<button class="row" data-push="s:${x.d.key}:${x.o.code}"><span class="rt"><b>${x.o.start}</b><small>${x.d.name.slice(0, 3).toUpperCase()}</small></span><span class="rm"><span class="rtitle">${esc(x.o.title)}</span><span class="rsub"><i class="dot" style="background:${DAYC[x.d.key]}"></i><span>${x.role === 'b' ? 'Plan B · ' : ''}${esc(x.o.room)}</span></span></span>${CHEV}</button>`).join('') || '<div class="rowgap" style="padding-left:16px">Nothing here on this day.</div>'}</div>
+    <button class="cta sec2" data-map="${n}">Show on map</button>`;
+}
+function personSheet(i) {
+  const p = D.people[i];
+  const rows = p.where.map(w => { const dk = { Tue: 'tue', Wed: 'wed', Thu: 'thu' }[w.t.slice(0, 3)]; const f = findItem(dk, w.code); const o = f ? (f.plan ? f.it.b : f.it) : null;
+    return `<button class="row" data-push="s:${dk}:${w.code}"><span class="rt"><b>${w.t.slice(4)}</b><small>${w.t.slice(0, 3).toUpperCase()}</small></span><span class="rm"><span class="rtitle">${esc(o ? o.title : w.code)}</span><span class="rsub"><span>${esc(w.room)} · ${w.code}</span></span></span>${CHEV}</button>` }).join('');
+  return `<div class="sh-title" style="justify-items:start"><span class="pav t${p.tier}" style="width:64px;height:64px;font-size:22px">${esc(initials(p.name))}</span><h2 style="margin-top:6px">${esc(p.name)}</h2><div class="eyebrow" style="text-transform:none;font-size:15px;font-weight:500">${esc(p.role)} · ${esc(p.org)}</div></div>
+    <div class="card"><h3>Why meet</h3><p>${esc(p.why)}</p></div>
+    <div class="sec"><div class="sec-h"><h2>Where to find</h2></div><div class="group">${rows}</div></div>
+    <div class="sec"><div class="sec-h"><h2>Socials</h2></div>${p.hasSocial ? '' : '<div class="sec-note">No socials on the MAX profile.</div>'}<div class="socials">${p.social.map(s => `<a href="${s.u}" target="_blank" rel="noopener"><span>${esc(s.k)}</span>${esc(s.h)}</a>`).join('')}</div></div>`;
+}
+const INFO = {
+  booking: () => `<div class="sh-title"><div class="eyebrow">From the MAX FAQ</div><h2>Booking and waitlists</h2></div>
+    <div class="card"><h3>Waitlists close Tue, Oct 20</h3><p>Your pass covers entry, not a seat. A seat is held only for sessions in My Schedule, until 3 minutes before start. After Oct 20 a full session only has the door line, which opens 2 minutes before start.</p></div>
+    <div class="card"><h3>What the tags mean</h3><ul class="plist">
+      <li><b>Reserve.</b> Add it to My Schedule in the session catalog. Every session has a catalog button.</li>
+      <li><b>Can overlap.</b> The catalog lets Creative Park talks, demos and the Tuesday screening sit on top of another booking.</li>
+      <li><b>Walk-in.</b> No seat is held. Line up 15 to 20 minutes early.</li>
+      <li><b>No booking.</b> Welcome Reception and MAX Bash.</li></ul></div>
+    <div class="card"><h3>Braindate</h3><p class="small">One-on-ones of 30 minutes and groups of up to 6 for 45 minutes, booked online and held in Creative Park.</p></div>
+    <a class="cta" href="${D.cat}" target="_blank" rel="noopener">Open the session catalog</a>`,
+  evenings: () => `<div class="sh-title"><div class="eyebrow">Beyond the sessions</div><h2>Labs and evenings</h2></div>
+    <div class="card"><h3>Lab credits</h3><ul class="plist">
+      <li><b>Wed 1:00.</b> L6105, You, Animated. Room 232, Level 2.</li>
+      <li><b>Thu 8:00.</b> L6210, From Brief to Brand. Room 222, Level 2.</li>
+      <li><b>Third credit.</b> Best fit is L6625, AI video editing, Tue 12:30 in Room 210, by trading S6602, AB6472 and S6205.</li>
+      <li><b>Photowalk.</b> W6410 clashes with a must attend at all three runs.</li></ul></div>
+    <div class="card"><h3>Evenings</h3><ul class="plist">
+      <li><b>Tue 6:30.</b> Welcome Reception in Creative Park until 8:00. No booking.</li>
+      <li><b>Tue 7:00.</b> Film screening at the Fillmore with beer and wine, until 9:00. Reserve, it can overlap.</li>
+      <li><b>Wed 5:30.</b> MAX Sneaks in Hall A.</li>
+      <li><b>Wed 7:30.</b> MAX Bash with The Black Keys until 10:30. No booking. Guest passes cost $200.</li>
+      <li><b>Happy hours.</b> None listed on the official agenda or sponsor pages.</li></ul></div>
+    <div class="card"><h3>Meals</h3><p class="small">Breakfast and lunch are provided Tuesday to Thursday.</p></div>`,
+  where: () => `<div class="sh-title"><div class="eyebrow">Miami Beach Convention Center</div><h2>Where things are</h2></div>
+    <div class="card"><ul class="plist">
+      <li><b>Hall A.</b> Keynotes and Sneaks.</li>
+      <li><b>Creative Park.</b> Discovery Stage, Creator Stage, Demo Theater, Session Rooms 1 to 6, booths, Braindate.</li>
+      <li><b>Ocean Drive.</b> Level 1, NW corner off the Grand Lobby.</li>
+      <li><b>Lincoln Road.</b> Level 1, SW corner off the Grand Lobby.</li>
+      <li><b>Labs.</b> Room 232 on Wednesday and Room 222 on Thursday, both on Level 2.</li>
+      <li><b>The Fillmore.</b> 1700 Washington Ave, at the south end of the campus.</li>
+      <li><b>Address.</b> 1901 Convention Center Dr, Miami Beach.</li></ul></div>
+    <button class="cta sec2" data-tab-go="map">Open the map</button>`,
+  about: () => `<div class="sh-title"><div class="eyebrow">About</div><h2>Mo's MAX</h2></div>
+    <div class="card"><p class="small">Personal agenda for Adobe MAX 2026, Nov 10 to 12 in Miami Beach. Built from the official session catalog and FAQ, read Oct 16, 2026. Times are Miami time. Not produced by Adobe.</p></div>
+    <div class="group">
+      <a class="row plain" href="${D.cat}" target="_blank" rel="noopener"><span class="ico" style="background:#D70F00">↗</span><span class="rm"><span class="rtitle">Session catalog</span><span class="rsub"><span>reg.adobe.com</span></span></span>${CHEV}</a>
+      <a class="row plain" href="https://max.adobe.com/faq/" target="_blank" rel="noopener"><span class="ico" style="background:#2C8E91">↗</span><span class="rm"><span class="rtitle">Adobe MAX FAQ</span><span class="rsub"><span>max.adobe.com</span></span></span>${CHEV}</a>
+      <a class="row plain" href="https://www.miamibeachconvention.com/floor-plans-campus-map" target="_blank" rel="noopener"><span class="ico" style="background:#012579">↗</span><span class="rm"><span class="rtitle">Venue floor plans</span><span class="rsub"><span>miamibeachconvention.com</span></span></span>${CHEV}</a>
+    </div>`,
+};
+function route(key, push) {
+  const [k, a, b] = key.split(':');
+  const fn = k === 's' ? () => sessionSheet(a, b) : k === 't' ? trainSheet : k === 'p' ? () => placeSheet(+a) : k === 'u' ? () => personSheet(+a) : () => INFO[a]();
+  openSheet(fn, push);
+}
+
+/* tabs */
+function setTab(t) {
+  st.tab = t; store.set('mo-max-tab', t);
+  document.querySelectorAll('.tabbar button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === t));
+  ['today', 'agenda', 'map', 'people'].forEach(v => $('#v-' + v).hidden = v !== t);
+  if (t === 'map') renderMap();
+}
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-close],[data-open],[data-push],[data-map],[data-tab],[data-tab-go],[data-day-pick],[data-mapday],.vm .place,#sh-back');
+  if (!el) return;
+  if (el.id === 'sh-back') { stack.pop(); draw(); return }
+  if (el.hasAttribute('data-close')) { closeSheet(); return }
+  if (el.dataset.map) { goMap(el.dataset.map, el.dataset.mday); return }
+  if (el.dataset.push) { route(el.dataset.push, true); return }
+  if (el.dataset.open) { route(el.dataset.open, false); return }
+  if (el.dataset.tabGo) { closeSheet(true); if (el.dataset.day) { st.day = el.dataset.day; renderAgenda() } setTab(el.dataset.tabGo); window.scrollTo(0, 0); return }
+  if (el.dataset.tab) { setTab(el.dataset.tab); window.scrollTo(0, 0); return }
+  if (el.dataset.dayPick) { st.day = el.dataset.dayPick; store.set('mo-max-day', st.day); renderAgenda(); return }
+  if (el.dataset.mapday) { st.mapDay = el.dataset.mapday; renderMap(); return }
+  if (el.classList.contains('place')) { st.pin = +el.dataset.pin; renderMap(); route('p:' + el.dataset.pin, false) }
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeSheet();
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('place')) { e.preventDefault(); e.target.dispatchEvent(new MouseEvent('click', { bubbles: true })) }
+});
+
+(function init() {
+  const p = position();
+  st.day = p.phase === 'during' ? D.days[p.di].key : (store.get('mo-max-day') || 'tue');
+  st.mapDay = p.phase === 'during' ? D.days[p.di].key : 'all';
+  const nx = p.phase === 'during' ? TL.find(x => x.a > p.abs && x.it.pin) : TL[0];
+  st.pin = nx && nx.it.pin ? nx.it.pin : 1;
+  renderToday(); renderAgenda(); renderPeople(); renderMap();
+  const h = (location.hash || '').slice(1);
+  setTab(['today', 'agenda', 'map', 'people'].includes(h) ? h : 'today');
+  setInterval(() => { renderToday(); if (position().phase === 'during') renderAgenda() }, 60000);
+})();
+</script>
+<script>
+if ('serviceWorker' in navigator && location.protocol === 'https:') { window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {})) }
+</script>
+</body>
+</html>
