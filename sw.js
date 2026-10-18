@@ -1,5 +1,5 @@
-// build 6.fa95be2
-const C = 'mo-max-v5';
+// build 7.2718c06
+const C = 'mo-max-v6';
 const IMG = 'mo-max-img-v1';
 const ASSETS = ['./', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png', './vendor/leaflet/leaflet.js', './vendor/leaflet/leaflet.css'];
 const HOME = new URL('./', self.registration.scope).href;
