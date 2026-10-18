@@ -1,6 +1,7 @@
-// build 7.2718c06
-const C = 'mo-max-v6';
+// build 8.544a068
+const C = 'mo-max-v7';
 const IMG = 'mo-max-img-v1';
+const PICS = ['www.choicehotels.com', 'www.miamibeachconvention.com', 's7d9.scene7.com'];
 const ASSETS = ['./', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png', './vendor/leaflet/leaflet.js', './vendor/leaflet/leaflet.css'];
 const HOME = new URL('./', self.registration.scope).href;
 self.addEventListener('install', e => { e.waitUntil(caches.open(C).then(c => c.addAll(ASSETS.map(u => new Request(u, { cache: 'reload' }))))); self.skipWaiting() });
@@ -30,6 +31,10 @@ self.addEventListener('fetch', e => {
     e.respondWith(caches.open(IMG).then(c => c.match(req.url).then(hit => hit || fetch(req.url, { mode: 'cors', credentials: 'omit' })
       .then(r => { if (r.ok) c.put(req.url, r.clone()).catch(() => {}); return r })
       .catch(() => fetch(req)))));
+    return;
+  }
+  if (PICS.includes(u.hostname)) {
+    e.respondWith(caches.open(IMG).then(c => c.match(req.url).then(hit => hit || fetch(req).then(r => { if (r.ok || r.type === 'opaque') c.put(req.url, r.clone()).catch(() => {}); return r }))));
     return;
   }
   if (u.origin !== location.origin) return;
