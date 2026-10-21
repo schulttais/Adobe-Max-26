@@ -1,4 +1,4 @@
-// build 9.8493909
+// build 9.6bc87f2
 const C = 'mo-max-v12';
 const IMG = 'mo-max-img-v1';
 const PICS = ['www.choicehotels.com', 'www.miamibeachconvention.com', 's7d9.scene7.com'];
