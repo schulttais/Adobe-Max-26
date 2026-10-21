@@ -1,5 +1,5 @@
-// build 9.875d831
-const C = 'mo-max-v10';
+// build 9.1f7bf32
+const C = 'mo-max-v11';
 const IMG = 'mo-max-img-v1';
 const PICS = ['www.choicehotels.com', 'www.miamibeachconvention.com', 's7d9.scene7.com'];
 const ASSETS = ['./', './manifest.webmanifest', './duck-180.png', './duck-192.png', './duck-512.png', './duck-512-maskable.png', './vendor/leaflet/leaflet.js', './vendor/leaflet/leaflet.css'];
